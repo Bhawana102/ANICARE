@@ -1,0 +1,168 @@
+<html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <title>prescribe-methods</title>
+        <script src="js/angular.min.js"> </script>
+        <script src="js/jquery-1.8.2.min.js"></script>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+      
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="carouselindex.css">
+        
+      
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+          crossorigin="anonymous"></script>
+        <!-- <style>
+          .card-img-top {
+            height: 200px;
+            width: 200px;
+            border-radius: 50%;
+            align-self: center;
+            margin-bottom: 5%;
+      
+          }
+        </style> -->
+        <script>
+          $(document).ready(function () {
+            //======================indexpage signup========================================
+            $("#btnsignup").click(function () {
+              //alert("hello");
+              var mail = $("#mailsign").val();
+              var pass = $("#pwdsign").val();
+              alert(utype);
+              var url = "/sign?email=" + mail + "&pwd=" + pass;
+              // alert(url);
+              $.get(url, function (response) {
+                alert(response);  
+              });
+            });
+      
+      
+            //=========================index page login ==============================================================
+            $("#btnmodallogin").click(function ()
+            { // alert("hello");
+              var loginmail = $("#txtlogemail").val();
+              var loginpass = $("#txtlogpassword").val();
+              var url = "/login?email=" + loginmail + "&pwd=" + loginpass;
+              // alert(url);
+              $.getJSON(url, function (jsonAry) {
+             // alert(JSON.stringify(jsonAry));
+             if (jsonAry.length == 0)
+             alert("invalid mail/password/expired account");
+             else {
+             localStorage.setItem("activeUser", $("#txtlogemail").val());  ////importanttt
+            
+              window.location.replace("/dashboard  .html");
+    
+          }
+          alert("Welcome:" + jsonAry[0].utype);
+
+            })
+          });
+        });
+  </script>
+    </head>
+    <body>
+           
+        <!-- <center> <h1>RECIPIENT-DASHBOARD</h1> </center> -->
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+          <div class="container container-fluid" style="background-color: #d0e3ad;">
+            <img src="pics/icon.jpeg" width="60" height="60" class="d-inline-block align-text-top">
+            <center>
+              <div>
+                <span>
+                  <h3>Welcome to ANICARE</h3>
+                </span>
+              </div>
+            </center>
+      
+            <form class="d-flex" role="search">
+              <!-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button> -->
+                <div class="d-grid gap-2 d-md-block">
+              <button class="btn btn-primary" style="background-color: #8fa860;" type="button" data-bs-toggle="modal"   data-bs-target="#signupModal">SignUp</button>
+              <button class="btn btn-primary" style="background-color: #8fa860;" type="button" data-bs-toggle="modal"  data-bs-target="#loginModal">Login</button>
+              </div>
+            </form>
+          </div>
+          </div>
+        </nav>
+  <!-- //modal-- -----------------SIGNUP -->
+  <form method="get">
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">SignUp</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body"> <label for="form-control" id="starsign">*</label>
+            <div class="form-floating mb-3">
+
+              <input type="email" class="form-control" name="mailsign" value="abc@gmail.com" id="mailsign"
+                placeholder="name@example.com">
+              <label for="floatingInput">Email</label>
+
+            </div>
+            <div class="form-floating">
+              <input type="password" class="form-control" name="pwdsign" value="abc" id="pwdsign"
+                placeholder="Password">
+              <label for="floatingPassword">Password</label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="btnsignup">SignUp</button>
+            <!-----------------------------!fffffffffffffffffffffffffff-->
+            <!-- <mat-card-actions>
+              <button type="submit" mat-raised-button class="button full-width" id="btnsignup" [disabled]="signupForm.invalid">Signup</button>
+          </mat-card-actions> -->
+          <button class="btn btn-primary" type="button" data-bs-toggle="modal"  data-bs-target="#loginModal">Already have an account</button>
+                    </div>
+        </div>
+      </div>
+    </div>
+  </form>
+        <!-- modal login ------------------------->
+        <form action="/login" method="get">
+          <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-floating mb-3">
+      
+                    <input type="email" class="form-control" id="txtlogemail" placeholder="name@example.com">
+                    <label for="floatingInput">Email</label>
+                  </div>
+                  <div class="form-floating">
+                    <input type="password" class="form-control" id="txtlogpassword" placeholder="Password">
+                    <label for="floatingPassword">Password</label>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" id="btnmodallogin" class="btn btn-primary">Login</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+              
+              <!-- <a class="navbar-brand" href="#">      </a>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                  <a class="nav-link active" aria-current="page" href="/">Home</a>
+                  <a class="nav-link" href="/prescribe">Prescribe</a>
+                  <a class="nav-link" href="/symptoms">Symptoms</a> -->
+
+        </body>
+</html>
